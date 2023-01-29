@@ -1,20 +1,35 @@
 package k23.BE1ControllerAndEndpoints.web;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import k23.BE1ControllerAndEndpoints.domain.Friend;
 
 @Controller
 
 public class RequestController {
 
-	@RequestMapping("/index")
-	@ResponseBody
-	public String showMainPage() {
-		return "This is the main page";
+	private ArrayList<Friend> friends = new ArrayList<>();
+	
+	@GetMapping(value = "/friend")
+	public String showFriendsPage(Model model) {
+		model.addAttribute("friends", friends);
+		model.addAttribute("friend", new Friend(null));
+		return "friends";
+	}
+	
+	@PostMapping("/friend")
+	public String addFriend(@ModelAttribute Friend friend2) {
+		friends.add(friend2);
+		return "redirect:/friend";
 	}
 	
 	@RequestMapping("/contact")
