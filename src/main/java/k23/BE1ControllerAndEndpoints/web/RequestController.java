@@ -1,6 +1,8 @@
 package k23.BE1ControllerAndEndpoints.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,11 +23,13 @@ public class RequestController {
 		return "This is the contact page";
 	}
 	
-	@RequestMapping("/hello")
-	@ResponseBody
+	@GetMapping("/hello")
 	public String showHelloPage(
-			@RequestParam (name="location", required=false, defaultValue="Helsinki") String location, 
-			@RequestParam (name="name", required=false, defaultValue="Nimetön") String name) {
-		return "Welcome to the " + location + " " + name + "!";
+			@RequestParam (name="age", required=false) int age, 
+			@RequestParam (name="name", required=false, defaultValue="Nimetön") String name, Model model) {
+		model.addAttribute("name", name);
+		model.addAttribute("age", age);
+		return "hello";
 	}
+	
 }
